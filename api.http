@@ -1,0 +1,32 @@
+### Recuperar todos los tips
+GET http://localhost:8080/tips
+
+### Recuperar un tip por id
+GET http://localhost:8080/tips/6580e09ba31ed450272f3fe7
+
+
+
+### Crear un tip con POST
+POST http://localhost:8080/tips
+Content-Type: application/json
+
+{
+  "tipster": "Tipster Apuesta",
+  "date": "2023-12-08",
+  "name": "Barcelona + Paquito",
+  "status": "pending",
+  "spent": 10,
+  "potentialReturn": 14,
+  "selections": [{"name": "Barcelona gana", "status": "won"}, {"name": "Paquito gana", "status": "pending"}]
+}
+
+### Actualizar un tip
+PATCH http://localhost:8080/tips/6580e09ba31ed450272f3fe7
+Content-Type: application/json
+
+{ 
+  "spent": 11
+}
+
+### Borrar un tip
+DELETE http://localhost:8080/tips/6569cb0ba3b43449a9254629
