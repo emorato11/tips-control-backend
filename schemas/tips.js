@@ -23,6 +23,10 @@ const tipSchema = new Schema({
     min: '2023-01-01'
   },
   name: String,
+  type: {
+    type: String,
+    required: [true, 'Type is required']
+  },
   status: String,
   spent: {
     type: Number,
