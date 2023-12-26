@@ -1,0 +1,28 @@
+### Recuperar todos los tipsters
+GET http://localhost:8080/tipsters
+
+### Recuperar un tip por id
+GET http://localhost:8080/tipsters/658b2d89167f2a542be452f6
+
+
+
+### Crear un tip con POST
+POST http://localhost:8080/tipsters
+Content-Type: application/json
+
+{
+  "name": "TennisInsider",
+  "description": "El amo",
+  "type": "tennis"
+}
+
+### Actualizar un tip
+PATCH http://localhost:8080/tipsters/658b2eda39fd36e051a5e001
+Content-Type: application/json
+
+{ 
+  "description": "El amo del tenis"
+}
+
+### Borrar un tip
+DELETE http://localhost:8080/tipsters/658b2d89167f2a542be452f6

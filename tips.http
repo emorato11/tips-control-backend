@@ -11,13 +11,14 @@ POST http://localhost:8080/tips
 Content-Type: application/json
 
 {
-  "tipster": "Tipster Apuesta",
-  "date": "2023-12-08",
-  "name": "Barcelona + Paquito",
-  "status": "pending",
-  "spent": 10,
+  "tipster": "El Profesor",
+  "date": "2023-12-22",
+  "name": "Craiova crear apuesta",
+  "status": "failed",
+  "spent": 9,
   "potentialReturn": 14,
-  "selections": [{"name": "Barcelona gana", "status": "won"}, {"name": "Paquito gana", "status": "pending"}]
+  "type": "football",
+  "selections": [{"name": "Ambos marcan y gana craiova", "status": "failed"}]
 }
 
 ### Actualizar un tip
@@ -29,4 +30,4 @@ Content-Type: application/json
 }
 
 ### Borrar un tip
-DELETE http://localhost:8080/tips/6569cb0ba3b43449a9254629
+DELETE http://localhost:8080/tips/6589d88e169f4d46d90367fd
