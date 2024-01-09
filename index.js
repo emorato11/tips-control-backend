@@ -4,8 +4,8 @@ import { corsMiddleware } from './src/middlewares/cors.js'
 import { createTipRouter } from './src/routes/tips.js'
 import { createTipstersRouter } from './src/routes/tipster.js'
 import { connectDB } from './src/utils/dbConnection.js'
-// import { TipModel } from './src/models/tip.js'
-// import { TipsterModel } from './src/models/tipster.js'
+import { TipModel } from './src/models/tip.js'
+import { TipsterModel } from './src/models/tipster.js'
 
 export const createApp = async ({ tipModel, tipsterModel }) => {
   const app = express()
@@ -28,4 +28,4 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
   })
 }
 
-// createApp({ tipModel: TipModel, tipsterModel: TipsterModel })
+createApp({ tipModel: TipModel, tipsterModel: TipsterModel })
