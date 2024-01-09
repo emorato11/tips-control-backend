@@ -1,9 +1,11 @@
 import express from 'express'
 
-import { corsMiddleware } from './middlewares/cors.js'
-import { createTipRouter } from './routes/tips.js'
-import { createTipstersRouter } from './routes/tipster.js'
-import { connectDB } from './utils/dbConnection.js'
+import { corsMiddleware } from './src/middlewares/cors.js'
+import { createTipRouter } from './src/routes/tips.js'
+import { createTipstersRouter } from './src/routes/tipster.js'
+import { connectDB } from './src/utils/dbConnection.js'
+import { TipModel } from './src/models/tip.js'
+import { TipsterModel } from './src/models/tipster.js'
 
 export const createApp = async ({ tipModel, tipsterModel }) => {
   const app = express()
@@ -25,3 +27,5 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
     console.log(`server listening on port http://localhost:${port}`)
   })
 }
+
+createApp({ tipModel: TipModel, tipsterModel: TipsterModel })
