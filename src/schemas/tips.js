@@ -32,6 +32,7 @@ const tipSchema = new Schema({
     type: Number,
     min: 0
   },
+  userId: String,
   potentialReturn: {
     type: Number,
     min: 0

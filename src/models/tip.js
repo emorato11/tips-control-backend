@@ -8,9 +8,9 @@ const { model } = mongoose
 const Tip = model('Tip', tipSchema)
 
 export class TipModel {
-  static getAll = async () => {
+  static getAll = async ({ userId }) => {
     try {
-      const result = await Tip.find().sort({ date: -1 })
+      const result = await Tip.find({ userId }).sort({ date: -1 })
       return result
     } catch (error) {
       console.log(error)
@@ -19,9 +19,9 @@ export class TipModel {
     }
   }
 
-  static getById = async ({ id }) => {
+  static getById = async ({ id, userId }) => {
     try {
-      const result = await Tip.findById(id)
+      const result = await Tip.find({ id, userId })
       return result
     } catch (error) {
       return error

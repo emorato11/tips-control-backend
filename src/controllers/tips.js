@@ -4,15 +4,17 @@ export class TipController {
   }
 
   getAll = async (req, res) => {
-    const tips = await this.tipModel.getAll()
+    const userId = req.header('user_id')
+    const tips = await this.tipModel.getAll({ userId })
 
     res.json(tips)
   }
 
   getById = async (req, res) => {
     const { id } = req.params
+    const userId = req.header('user_id')
 
-    const tip = await this.tipModel.getById({ id })
+    const tip = await this.tipModel.getById({ id, userId })
     if (tip) {
       if (tip.name === 'CastError') return res.status(400).send({ error: 'id provided is malformed' })
       return res.json(tip)
@@ -27,8 +29,9 @@ export class TipController {
     // if (result.error) {
     //   return res.status(400).json({ error: JSON.parse(result.error.message) })
     // }
+    const userId = req.header('user_id')
 
-    const newTip = await this.tipModel.create({ input: req.body })
+    const newTip = await this.tipModel.create({ input: { ...req.body, userId } })
 
     res.status(201).json(newTip) // actualizar la caché del cliente
   }
@@ -41,7 +44,8 @@ export class TipController {
     // }
 
     const { id } = req.params
-    const updatedTip = await this.tipModel.update({ id, input: req.body })
+    const userId = req.header('user_id')
+    const updatedTip = await this.tipModel.update({ id, input: { ...req.body, userId } })
 
     return res.json(updatedTip)
   }
