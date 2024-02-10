@@ -3,6 +3,7 @@ import express from 'express'
 import { corsMiddleware } from './src/middlewares/cors.js'
 import { createTipRouter } from './src/routes/tips.js'
 import { createTelegramRouter } from './src/routes/telegram.js'
+import { createAWSRouter } from './src/routes/aws.js'
 import { createTipstersRouter } from './src/routes/tipster.js'
 import { connectDB } from './src/utils/dbConnection.js'
 import { TipModel } from './src/models/tip.js'
@@ -20,6 +21,7 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
   app.use('/tips', createTipRouter({ tipModel }))
   app.use('/tipsters', createTipstersRouter({ tipsterModel }))
   app.use('/telegram', createTelegramRouter())
+  app.use('/aws', createAWSRouter())
 
   // La última opcion a la que entraría (para controlar error, por ej)
   app.use((req, res) => {

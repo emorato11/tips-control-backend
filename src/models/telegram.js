@@ -24,7 +24,7 @@ const initBotListeners = () => {
     bot?.sendMessage(chatId, "Bienvenido!")
 
   });
-  
+  // In case it's necessary to get photo, extract logic from document to other function 
   // bot?.on('photo', async (msg) => {
   //   if (msg.photo.length) {
 
