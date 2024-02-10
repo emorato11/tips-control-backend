@@ -40,15 +40,18 @@ const initBotListeners = () => {
     console.log(msg)
     if (msg.document) {
       const stream = await bot?.getFileStream(msg.document.file_id)
-      
-      const buffer = await streamToBufferAsync({stream})
-
       const photoName = msg.document.file_name
       const mimetype = msg.document.mime_type
-
-      await uploadFileToBucket({ originalname: photoName, mimetype, buffer, caption: msg.caption })
+      
+      await prepareStreamToUpload({stream, photoName, mimetype, caption: msg.caption})
 
     }
   });
 
+}
+
+const prepareStreamToUpload = async ({stream, photoName, mimetype, caption}) => {
+  const buffer = await streamToBufferAsync({stream})
+
+  await uploadFileToBucket({ originalname: photoName, mimetype, buffer, caption })
 }
