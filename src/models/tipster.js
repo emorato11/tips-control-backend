@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import mongoose from 'mongoose'
 
 import { tipsterSchema } from '../schemas/tipsters.js'
@@ -8,9 +7,9 @@ const { model } = mongoose
 const Tipster = model('Tipster', tipsterSchema)
 
 export class TipsterModel {
-  static getAll = async () => {
+  static getAll = async ({ userId }) => {
     try {
-      const result = await Tipster.find()
+      const result = await Tipster.find({ userId })
       return result
     } catch (error) {
       console.log(error)
@@ -19,9 +18,9 @@ export class TipsterModel {
     }
   }
 
-  static getById = async ({ id }) => {
+  static getById = async ({ id, userId }) => {
     try {
-      const result = await Tipster.findById(id)
+      const result = await Tipster.find({ id, userId})
       return result
     } catch (error) {
       return error
