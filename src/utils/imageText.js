@@ -28,6 +28,8 @@ export const transformTextToTip = ({text, tipster, type}) => {
 
   const status = "pending"
 
+  const userId = "quiquemorato@gmail.com"
+
   const parsedSelections = parseSelections(selections)
 
   const tip = {
@@ -38,7 +40,8 @@ export const transformTextToTip = ({text, tipster, type}) => {
     potentialReturn,
     status,
     type,
-    selections: parsedSelections
+    selections: parsedSelections,
+    userId
 
   }
 

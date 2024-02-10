@@ -8,18 +8,20 @@ export async function getAllObjects () {
   // El resultado es una lista de paths de los archivos de la carpeta uploads del bucket,
   // con ello, llamamos al getSingleObject() por cada uno de los paths, y creamos los tips
   // en base de datos
+  const tips = []
   result?.forEach(async (filePath) => {
     const tip = await getSingleObject({filePath})
 
     console.log(tip)
     // Solo falta crear el tip en base de datos (Tip.create(tip))
     await TipModel.create({input: tip})
+    tips.push(tip)
     await deleteObject({path: filePath})
   })
 
   console.log('result: ', result)
 
-  return result
+  return tips
 }
 
 export async function getSingleObject ({filePath}) {

@@ -9,6 +9,8 @@ import { connectDB } from './src/utils/dbConnection.js'
 import { TipModel } from './src/models/tip.js'
 import { TipsterModel } from './src/models/tipster.js'
 import { initBot } from './src/controllers/telegram.js'
+import { initCronJob } from './src/jobs/index.js'
+
 
 export const createApp = async ({ tipModel, tipsterModel }) => {
   const app = express()
@@ -23,6 +25,8 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
   app.use('/telegram', createTelegramRouter())
   app.use('/aws', createAWSRouter())
 
+  initCronJob()
+
   // La última opcion a la que entraría (para controlar error, por ej)
   app.use((req, res) => {
     res.status(404).send('<h1>404 No se encontró la página</h1>')
@@ -30,7 +34,6 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
 
   app.listen(port, () => {
     console.log(`server listening on port http://localhost:${port}`)
-    initBot()
   })
 }
 

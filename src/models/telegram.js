@@ -5,23 +5,30 @@ import { streamToBufferAsync } from "../utils/buffer.js"
 import { uploadFileToBucket } from "./aws.js"
 
 const tToken = process.env.TELEGRAM_TOKEN
-let bot = undefined;
-let chatId = undefined
+let bot;
 
 export const init = async (token = tToken) => {
-  bot = new TelegramBot(token, {polling: true});
-
+  if (!hasConnected()) {
+    bot = new TelegramBot(token, {polling: true});
+  
+    
+    return 'Starting bot!'
+  }
   initBotListeners()
 
-  return true
+  return 'Bot already initialized'
 };
+
+export const hasConnected = () => {
+  return !!bot && bot.isPolling()
+}
 
 const initBotListeners = () => {
   bot?.onText(/\/start/, (msg) => {
     console.log('On Text')
-    chatId = msg.chat.id;
+    console.log(msg)
 
-    bot?.sendMessage(chatId, "Bienvenido!")
+    bot?.sendMessage(msg.chat.id, `Bienvenido, ${msg.from.first_name} ${msg.from.last_name}!`)
 
   });
   // In case it's necessary to get photo, extract logic from document to other function 
@@ -42,8 +49,12 @@ const initBotListeners = () => {
       const stream = await bot?.getFileStream(msg.document.file_id)
       const photoName = msg.document.file_name
       const mimetype = msg.document.mime_type
+
+      bot?.sendMessage(msg.chat.id, `Preparando fichero ${photoName} para subir a AWS`)
       
       await prepareStreamToUpload({stream, photoName, mimetype, caption: msg.caption})
+
+      bot?.sendMessage(msg.chat.id, `Fichero subido!`)
 
     }
   });
