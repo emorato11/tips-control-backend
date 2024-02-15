@@ -1,23 +1,29 @@
 import TelegramBot from "node-telegram-bot-api";
 import 'dotenv/config'
-import { unlink } from "fs";
 import { streamToBufferAsync } from "../utils/buffer.js"
 import { uploadFileToBucket } from "./aws.js"
 
 const tToken = process.env.TELEGRAM_TOKEN
 let bot;
+let currentChatId = process.env.TELEGRAM_CHAT_ID;
 
 export const init = async (token = tToken) => {
-  if (!hasConnected()) {
-    bot = new TelegramBot(token, {polling: true});
+  // if (!hasConnected()) {
+  bot = new TelegramBot(token, {polling: true});
   
-    
-    return 'Starting bot!'
-  }
   initBotListeners()
 
-  return 'Bot already initialized'
+  sendTextMessage('Bot inicializado!!')
+    
+  return 'Starting bot!'
+  // }
+
+  // return 'Bot already initialized'
 };
+
+export const sendTextMessage = (message) => {
+  bot?.sendMessage(currentChatId, message)
+}
 
 export const hasConnected = () => {
   return !!bot && bot.isPolling()

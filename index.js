@@ -19,20 +19,22 @@ export const createApp = async ({ tipModel, tipsterModel }) => {
   const port = process.env.PORT ?? 1234
 
   await connectDB()
-
+  
+  // app.use(initBot)
+  // app.use(initCronJob)
   app.use('/tips', createTipRouter({ tipModel }))
   app.use('/tipsters', createTipstersRouter({ tipsterModel }))
   app.use('/telegram', createTelegramRouter())
   app.use('/aws', createAWSRouter())
 
-  initCronJob()
-
   // La última opcion a la que entraría (para controlar error, por ej)
   app.use((req, res) => {
     res.status(404).send('<h1>404 No se encontró la página</h1>')
   })
-
-  app.listen(port, () => {
+  
+  app.listen(port, async () => {
+    await initBot()
+    await initCronJob()
     console.log(`server listening on port http://localhost:${port}`)
   })
 }
