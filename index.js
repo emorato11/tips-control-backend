@@ -2,12 +2,16 @@ import express from "express";
 
 import { corsMiddleware } from "./src/middlewares/cors.js";
 import { createTipRouter } from "./src/routes/tips.js";
+import { createAuthRouter } from "./src/routes/auth.js";
 import { createTelegramRouter } from "./src/routes/telegram.js";
 import { createAWSRouter } from "./src/routes/aws.js";
 import { createTipstersRouter } from "./src/routes/tipster.js";
 import { connectDB } from "./src/utils/dbConnection.js";
 import { TipModel } from "./src/models/tip.js";
 import { TipsterModel } from "./src/models/tipster.js";
+import { UserModel } from "./src/models/user.js";
+import { initBot } from "./src/controllers/telegram.js";
+import { initCronJob } from "./src/jobs/index.js";
 import { authenticateToken } from "./src/middlewares/auth.js";
 
 export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
@@ -18,8 +22,7 @@ export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
 
   await connectDB();
 
-  // app.use(initBot)
-  // app.use(initCronJob)
+  app.use("/auth", createAuthRouter({ userModel }));
   app.use("/tips", authenticateToken, createTipRouter({ tipModel }));
   app.use(
     "/tipsters",
@@ -35,10 +38,14 @@ export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
   });
 
   app.listen(port, async () => {
-    await initBot()
-    await initCronJob()
+    await initBot();
+    await initCronJob();
     console.log(`server listening on port http://localhost:${port}`);
   });
 };
 
-createApp({ tipModel: TipModel, tipsterModel: TipsterModel })
+createApp({
+  tipModel: TipModel,
+  tipsterModel: TipsterModel,
+  userModel: UserModel,
+});
