@@ -10,8 +10,8 @@ import { connectDB } from "./src/utils/dbConnection.js";
 import { TipModel } from "./src/models/tip.js";
 import { TipsterModel } from "./src/models/tipster.js";
 import { UserModel } from "./src/models/user.js";
-import { initBot } from "./src/controllers/telegram.js";
-import { initCronJob } from "./src/jobs/index.js";
+// import { initBot } from "./src/controllers/telegram.js";
+// import { initCronJob } from "./src/jobs/index.js";
 import { authenticateToken } from "./src/middlewares/auth.js";
 
 export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
@@ -38,8 +38,8 @@ export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
   });
 
   app.listen(port, async () => {
-    await initBot();
-    await initCronJob();
+    // await initBot();
+    // await initCronJob();
     console.log(`server listening on port http://localhost:${port}`);
   });
 };
