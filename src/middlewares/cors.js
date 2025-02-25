@@ -1,24 +1,32 @@
-import cors from 'cors'
+import cors from "cors";
 
 const ACCEPTED_ORIGINS = [
-  'http://localhost:8080',
-  'http://localhost:1234'
+  "http://localhost:8080",
+  "http://localhost:1234",
   // 'http://localhost:5173'
-]
+];
 
-export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => cors(
-  // {
-  //   origin: (origin, callback) => {
-  //     console.log(acceptedOrigins.includes(origin))
-  //     if (acceptedOrigins.includes(origin) || !origin) {
-  //       return callback(null, true)
-  //     }
+export const corsMiddleware = () => {
+  return cors({
+    origin: "https://tips-control-frontend.vercel.app", // prod
+    // origin: "http://localhost:3000", // local
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "X-CSRF-Token",
+      "X-Requested-With",
+      "Accept",
+      "Accept-Version",
+      "Content-Length",
+      "Content-MD5",
+      "Content-Type",
+      "Date",
+      "X-Api-Version",
+      "Authorization",
+      "Access-Control-Allow-Origin",
+    ],
+    // credentials: true, // Necesario para enviar cookies/tokens
+  });
+};
 
-  //     if (!origin) {
-  //       return callback(null, true)
-  //     }
-
-  //     return callback(new Error('Not allowed by CORS'))
-  //   }
-  // }
-)
+// export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) =>
+//   cors();
