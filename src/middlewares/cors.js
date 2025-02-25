@@ -24,7 +24,7 @@ export const corsMiddleware = () => {
       "Authorization",
       "Access-Control-Allow-Origin",
     ],
-    // credentials: true, // Necesario para enviar cookies/tokens
+    credentials: true, // Necesario para enviar cookies/tokens
   });
 };
 
