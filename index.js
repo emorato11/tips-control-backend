@@ -16,8 +16,10 @@ import { authenticateToken } from "./src/middlewares/auth.js";
 
 export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
   const app = express();
+  app.use(corsMiddleware);
   app.use(express.json());
-  app.use(corsMiddleware());
+  app.options("*", corsMiddleware);
+
   const port = process.env.PORT ?? 1234;
 
   await connectDB();
