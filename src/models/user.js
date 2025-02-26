@@ -9,7 +9,6 @@ const User = model("User", userSchema);
 export class UserModel {
   static getById = async ({ id }) => {
     try {
-      console.log(id);
       const result = await User.findOne({ id });
       return result;
     } catch (error) {

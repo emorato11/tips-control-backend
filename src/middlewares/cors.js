@@ -7,7 +7,13 @@ const ACCEPTED_ORIGINS = [
 ];
 
 export const corsMiddleware = cors({
-  origin: ACCEPTED_ORIGINS, // Permitir múltiples orígenes
+  origin: function (origin, callback) {
+    if (!origin || ACCEPTED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: [
     "X-CSRF-Token",
@@ -20,7 +26,6 @@ export const corsMiddleware = cors({
     "Date",
     "X-Api-Version",
     "Authorization",
-    "Access-Control-Allow-Origin",
   ],
-  credentials: true, // Necesario para enviar cookies/tokens
+  credentials: true,
 });
