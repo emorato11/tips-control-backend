@@ -14,40 +14,43 @@ import { UserModel } from "./src/models/user.js";
 // import { initCronJob } from "./src/jobs/index.js";
 import { authenticateToken } from "./src/middlewares/auth.js";
 
-export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
-  const app = express();
-  app.use(corsMiddleware);
-  app.use(express.json());
-  app.options("*", corsMiddleware);
+// export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
+const app = express();
+app.use(corsMiddleware);
+app.use(express.json());
+app.options("*", corsMiddleware);
 
-  const port = process.env.PORT ?? 1234;
+const port = process.env.PORT ?? 1234;
 
-  await connectDB();
+await connectDB();
 
-  app.use("/auth", createAuthRouter({ userModel }));
-  app.use("/tips", authenticateToken, createTipRouter({ tipModel }));
-  app.use(
-    "/tipsters",
-    authenticateToken,
-    createTipstersRouter({ tipsterModel })
-  );
-  app.use("/telegram", createTelegramRouter());
-  app.use("/aws", createAWSRouter());
+app.use("/auth", createAuthRouter({ userModel: UserModel }));
+app.use("/tips", authenticateToken, createTipRouter({ tipModel: TipModel }));
+app.use(
+  "/tipsters",
+  authenticateToken,
+  createTipstersRouter({ tipsterModel: TipsterModel })
+);
+app.use("/telegram", createTelegramRouter());
+app.use("/aws", createAWSRouter());
 
-  // La última opcion a la que entraría (para controlar error, por ej)
-  app.use((req, res) => {
-    res.status(404).send("<h1>404 No se encontró la página</h1>");
-  });
+// La última opcion a la que entraría (para controlar error, por ej)
+app.use((req, res) => {
+  res.status(404).send("<h1>404 No se encontró la página</h1>");
+});
 
+if (process.env.NODE_ENV !== "production") {
   app.listen(port, async () => {
-    // await initBot();
-    // await initCronJob();
+    //   // await initBot();
+    //   // await initCronJob();
     console.log(`server listening on port http://localhost:${port}`);
   });
-};
+}
 
-createApp({
-  tipModel: TipModel,
-  tipsterModel: TipsterModel,
-  userModel: UserModel,
-});
+// createApp({
+//   tipModel: TipModel,
+//   tipsterModel: TipsterModel,
+//   userModel: userModel: ,
+// });
+
+export default app;
