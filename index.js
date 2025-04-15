@@ -7,15 +7,16 @@ import { createAuthRouter } from "./src/routes/auth.js";
 import { createTelegramRouter } from "./src/routes/telegram.js";
 import { createAWSRouter } from "./src/routes/aws.js";
 import { createTipstersRouter } from "./src/routes/tipster.js";
+import { createYieldRouter } from "./src/routes/yield.js";
 import { connectDB } from "./src/utils/dbConnection.js";
 import { TipModel } from "./src/models/tip.js";
+import { PaymentModel } from "./src/models/payment.js";
 import { TipsterModel } from "./src/models/tipster.js";
 import { UserModel } from "./src/models/user.js";
 // import { initBot } from "./src/controllers/telegram.js";
 // import { initCronJob } from "./src/jobs/index.js";
 import { authenticateToken } from "./src/middlewares/auth.js";
 
-// export const createApp = async ({ tipModel, tipsterModel, userModel }) => {
 const app = express();
 app.use(corsMiddleware);
 app.use(express.json());
@@ -31,6 +32,15 @@ app.use(
   "/payments",
   authenticateToken,
   createPaymentRouter({ paymentModel: PaymentModel })
+);
+app.use(
+  "/yield",
+  authenticateToken,
+  createYieldRouter({
+    paymentModel: PaymentModel,
+    tipModel: TipModel,
+    tipsterModel: TipsterModel,
+  })
 );
 app.use(
   "/tipsters",

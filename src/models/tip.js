@@ -18,6 +18,17 @@ export class TipModel {
     }
   };
 
+  static getAllByTipsterId = async ({ userId, tipsterId }) => {
+    try {
+      const result = await Tip.find({ userId, tipsterId }).sort({ date: -1 });
+      return result;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // mongoose.connection.close()
+    }
+  };
+
   static getById = async ({ id, userId }) => {
     try {
       const result = await Tip.find({ id, userId });
