@@ -2,6 +2,7 @@ import express from "express";
 
 import { corsMiddleware } from "./src/middlewares/cors.js";
 import { createTipRouter } from "./src/routes/tips.js";
+import { createPaymentRouter } from "./src/routes/payments.js";
 import { createAuthRouter } from "./src/routes/auth.js";
 import { createTelegramRouter } from "./src/routes/telegram.js";
 import { createAWSRouter } from "./src/routes/aws.js";
@@ -27,6 +28,11 @@ await connectDB();
 app.use("/auth", createAuthRouter({ userModel: UserModel }));
 app.use("/tips", authenticateToken, createTipRouter({ tipModel: TipModel }));
 app.use(
+  "/payments",
+  authenticateToken,
+  createPaymentRouter({ paymentModel: PaymentModel })
+);
+app.use(
   "/tipsters",
   authenticateToken,
   createTipstersRouter({ tipsterModel: TipsterModel })
@@ -46,11 +52,5 @@ if (process.env.NODE_ENV !== "production") {
     console.log(`server listening on port http://localhost:${port}`);
   });
 }
-
-// createApp({
-//   tipModel: TipModel,
-//   tipsterModel: TipsterModel,
-//   userModel: userModel: ,
-// });
 
 export default app;
