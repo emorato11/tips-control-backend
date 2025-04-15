@@ -20,7 +20,7 @@ export class TipsterModel {
 
   static getById = async ({ id, userId }) => {
     try {
-      const result = await Tipster.find({ id, userId });
+      const result = await Tipster.findOne({ _id: id, userId });
       return result;
     } catch (error) {
       return error;

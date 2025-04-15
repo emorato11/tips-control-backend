@@ -13,9 +13,13 @@ selectionSchema.set('toJSON', {
 })
 
 const tipSchema = new Schema({
-  tipster: {
+  tipsterId: {
     type: String,
-    required: [true, 'Tipster is required']
+    required: [true, 'Tipster id is required']
+  },
+  tipsterName: {
+    type: String,
+    required: [true, 'Tipster name is required']
   },
   date: {
     type: Date,
