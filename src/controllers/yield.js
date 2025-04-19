@@ -31,6 +31,8 @@ export class YieldController {
           return {
             tipsterId: tipster.id,
             tipsterName: tipster.name,
+            tipsYield,
+            paymentsYield,
             yield: tipsYield - paymentsYield,
           };
         })
@@ -60,14 +62,41 @@ export class YieldController {
         name: payment.name,
         typeId: payment.typeId,
         typeName: payment.typeName,
+        id: payment.id,
       }));
 
       const tipsYield = accumulateYield(tips);
+
+      const totalPayments = payments.reduce((acc, curr) => {
+        return curr.spent + acc;
+      }, 0);
+
+      const mappedTips = tips
+        .filter((tip) => tip.status !== "pending")
+        .map((tip) => {
+          const returned =
+            tip.status === "won"
+              ? tip.potentialReturn - tip.spent
+              : 0 - tip.spent;
+          return {
+            date: tip.date,
+            id: tip.id,
+            name: tip.name,
+            returned,
+            status: tip.status,
+            tipsterId: tip.tipsterId,
+            tipsterName: tip.tipsterName,
+            type: tip.type,
+            userId,
+          };
+        });
 
       const objToReturn = {
         tipsterId: tipster._id,
         tipsterName: tipster.name,
         tipsYield,
+        tips: mappedTips,
+        totalPayments,
         payments: mappedPayments,
         countTipsByStatus: countTipsByStatus(tips),
       };
