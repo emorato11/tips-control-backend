@@ -3,6 +3,7 @@ import express from "express";
 import { corsMiddleware } from "./src/middlewares/cors.js";
 import { createTipRouter } from "./src/routes/tips.js";
 import { createPaymentRouter } from "./src/routes/payments.js";
+import { createGroupRouter } from "./src/routes/groups.js";
 import { createAuthRouter } from "./src/routes/auth.js";
 import { createTelegramRouter } from "./src/routes/telegram.js";
 import { createAWSRouter } from "./src/routes/aws.js";
@@ -11,6 +12,7 @@ import { createYieldRouter } from "./src/routes/yield.js";
 import { connectDB } from "./src/utils/dbConnection.js";
 import { TipModel } from "./src/models/tip.js";
 import { PaymentModel } from "./src/models/payment.js";
+import { GroupModel } from "./src/models/group.js";
 import { TipsterModel } from "./src/models/tipster.js";
 import { UserModel } from "./src/models/user.js";
 // import { initBot } from "./src/controllers/telegram.js";
@@ -32,6 +34,11 @@ app.use(
   "/payments",
   authenticateToken,
   createPaymentRouter({ paymentModel: PaymentModel })
+);
+app.use(
+  "/groups",
+  authenticateToken,
+  createGroupRouter({ groupModel: GroupModel })
 );
 app.use(
   "/yield",
