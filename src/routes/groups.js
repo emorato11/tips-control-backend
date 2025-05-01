@@ -8,7 +8,7 @@ export const createGroupRouter = ({ groupModel }) => {
   const groupsController = new GroupController({ groupModel });
 
   groupsRouter.get("/", groupsController.getAll);
-  groupsRouter.get("/:id", groupsController.getById);
+  groupsRouter.get("/:tipsterId", groupsController.getAllByTipsterId);
   groupsRouter.post("/", groupsController.create);
   groupsRouter.patch("/:id", groupsController.update);
 

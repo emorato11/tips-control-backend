@@ -10,13 +10,17 @@ export class GroupController {
   };
 
   getAllByTipsterId = async (req, res) => {
-    const { id } = req.params;
+    const { tipsterId } = req.params;
     const userId = req.userId;
 
-    const group = await this.groupModel.getAllByTipsterId({ id, userId });
+    const group = await this.groupModel.getAllByTipsterId({
+      tipsterId,
+      userId,
+    });
     if (group) {
-      if (group.name === "CastError")
+      if (group.name === "CastError") {
         return res.status(400).send({ error: "id provided is malformed" });
+      }
       return res.json(group);
     }
 
@@ -29,8 +33,9 @@ export class GroupController {
 
     const group = await this.groupModel.getById({ id, userId });
     if (group) {
-      if (group.name === "CastError")
+      if (group.name === "CastError") {
         return res.status(400).send({ error: "id provided is malformed" });
+      }
       return res.json(group);
     }
 
